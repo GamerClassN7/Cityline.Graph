@@ -2,7 +2,8 @@
 
 ### Connect to Service
 ```powersehll
-Import-Module ./Cityline.Graph/Cityline.Graph.psm1 -Force
+Install-Module .Cityline.Graph
+Import-Module .Cityline.Graph -Force
 
 # create a SecureString first for -Password
 $pw = ConvertTo-SecureString 'password' -AsPlainText -Force
