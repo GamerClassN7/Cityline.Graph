@@ -33,7 +33,7 @@ Get-CStatisticsAnalysisReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pm
 __Search for payet ticket inside citilyne service__
 ```powersehll
 $pm = Get-CMachine
-Get-CStatisticsDataReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pmGuids $pm.GUID -ReportType 'SinglePaymentReport' | Where-Object -Property 'PLATENO' -Value '#######' -eq
+Get-CStatisticsDataReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pmGuids $pm.GUID -ReportType 'SinglePaymentReport' | Where-Object -Property 'PLATENO' -Value 'XX123YY' -eq
 ```
 ```powersehll
 TicketGuid           : 000000-aaaa-bbbb-cccc-dddddddddddd
