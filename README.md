@@ -65,3 +65,8 @@ __* filter only Park Machine with errors__
 $pm = Get-CMachine
 Get-CLiveMonitoringReport -pmGuids $pm.GUID | Where-Object -Property 'hasError' -Value $true -eq
 ```
+
+## Info
+* https://www.hectronic.com/int/en/parking-management/cityline
+* https://www.hectronic.com
+* https://www.postman.com/hectronic
