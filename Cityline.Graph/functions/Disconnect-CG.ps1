@@ -7,6 +7,4 @@ function Disconnect-CG {
     )
 
     Invoke-WebRequest -WebSession $script:session -Uri ("{0}/logout" -f $script:rootUrl) -Method "GET"
-    Remove-Variable -Name 'session'
-    Remove-Variable -Name 'requestPrefab'
 }

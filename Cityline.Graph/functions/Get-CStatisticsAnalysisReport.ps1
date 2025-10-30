@@ -12,7 +12,6 @@ function Get-CStatisticsAnalysisReport {
         [string[]]
         $pmGuids,
 
-        # Report type as a parameter — placed in the 'Financial' parameter set.
         [ValidateSet('FinancialReport','TicketDurationReport')]
         [string]
         $ReportType = 'FinancialReport'

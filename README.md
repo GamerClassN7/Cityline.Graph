@@ -5,7 +5,7 @@
 Import-Module ./Cityline.Graph/Cityline.Graph.psm1 -Force
 
 # create a SecureString first for -Password
-$pw = ConvertTo-SecureString 'heslo' -AsPlainText -Force
+$pw = ConvertTo-SecureString 'password' -AsPlainText -Force
 
 # call the function
 $session = Connect-CG -Username 'test@test.com' -Password $pw
@@ -30,7 +30,7 @@ Get-CStatisticsAnalysisReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pm
 ```
 
 ### Fetch financial report data
-__Search for payet ticket inside citilyne service__
+__* Search for payed ticket inside CityLine service__
 ```powersehll
 $pm = Get-CMachine
 Get-CStatisticsDataReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pmGuids $pm.GUID -ReportType 'SinglePaymentReport' | Where-Object -Property 'PLATENO' -Value 'XX123YY' -eq
@@ -57,4 +57,11 @@ Location             : TestZone
 is_coin              : 1
 ExportedDateTime     : 2025-10-30 11:57:56
 pm_guid              : eeeeeeee-ffff-1111-2222-333333333333
+```
+
+### Fetch Park machines Status information
+__* filter only Park Machine with errors__
+```powersehll
+$pm = Get-CMachine
+Get-CLiveMonitoringReport -pmGuids $pm.GUID | Where-Object -Property 'hasError' -Value $true -eq
 ```
