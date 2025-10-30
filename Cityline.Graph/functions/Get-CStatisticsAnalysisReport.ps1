@@ -29,13 +29,6 @@ function Get-CStatisticsAnalysisReport {
         "grouping_by"           = "1"
     }
 
-    #$response = Invoke-CRequest -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report','')) -Method 'POST' -Body $form
-    $response = Invoke-CRequestBatch -Method 'POST' -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Body $form -ChunkDays 7
-    $jsonResponse = ($response | ConvertFrom-Json)
-
-    if ($pmGuids.Length -ne $jsonResponse.filter_pms.Length) {
-        Write-Verbose "Warning: Requested $($pmGuids.Length) PM GUIDs, but response contains $($jsonResponse.filter_pms.Length) entries."
-    }
-
-    return $jsonResponse.pm
+    $response = Invoke-CRequestBatchFilterDefinition -Method 'POST' -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Body $form -ChunkDays 7
+    return $response.pm
 }

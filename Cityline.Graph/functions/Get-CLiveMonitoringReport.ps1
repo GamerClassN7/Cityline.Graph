@@ -13,12 +13,6 @@ function Get-CLiveMonitoringReport {
         "disable_event_filter"  = "1"
     }
 
-    $response = Invoke-CRequest -Endpoint ("/livemonitoring_report/getFilterDefinition") -Method 'POST' -Body $form
-    $jsonResponse = ($response | ConvertFrom-Json)
-
-    if ($pmGuids.Length -ne $jsonResponse.filter_pms.Length) {
-        Write-Verbose "Warning: Requested $($pmGuids.Length) PM GUIDs, but response contains $($jsonResponse.filter_pms.Length) entries."
-    }
-
-    return $jsonResponse.pm
+    $response = Invoke-CRequestFilterDefinition -Endpoint ("/livemonitoring_report/getFilterDefinition") -Method 'POST' -Body $form
+    return $response.pm
 }

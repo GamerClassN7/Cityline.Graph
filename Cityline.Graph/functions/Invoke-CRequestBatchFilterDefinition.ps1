@@ -1,4 +1,4 @@
-function Invoke-CRequestBatch {
+function Invoke-CRequestBatchFilterDefinition {
     param (
         [Parameter(Mandatory = $true)]
         [string]
@@ -44,8 +44,11 @@ function Invoke-CRequestBatch {
         $results += $responseJson
         Write-verbose "Invoking batched request for date range: $($tempBody.startdate) to $($tempBody.enddate)"
         Write-verbose "Results : $($responseJson.pm.Length)"
+        if (($Body.pm_list -split ',').Length -ne $responseJson.filter_pms.Length){
+            Write-Verbose "Warning: Requested $(($Body.pm_list -split ',').Length) PM GUIDs, but response contains $($responseJson.filter_pms.Length) entries."
+        }
     }
 
     Write-Verbose "Results : $($results.Length)"
-    return ($results | ConvertTo-Json -Depth 7)
+    return $results
 }
