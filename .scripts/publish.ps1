@@ -1,3 +1,5 @@
+Install-Module 'PowerHTML' -Force -Scope CurrentUser
+
 $Global:ErrorActionPreference = 'Stop'
 $Global:VerbosePreference = 'SilentlyContinue'
 
