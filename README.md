@@ -1,4 +1,11 @@
 # Cityline.Graph
+![PowerShell](https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white)
+
+![](https://img.shields.io/github/v/tag/gamerclassn7/cityline.graph?sort=date)
+![PowerShell Gallery Downloads](https://img.shields.io/powershellgallery/dt/Cityline.Graph)
+![GitHub last commit](https://img.shields.io/github/last-commit/gamerclassn7/cityline.graph)
+
+Small yet powerful module for communication with CityLine cloud service server over API from environment of PowerShell7
 
 ### Connect to Service
 ```powersehll

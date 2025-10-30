@@ -30,7 +30,7 @@
     Copyright             = '(c) Vaclav Spaninger All rights reserved.'
 
     # Description of the functionality provided by this module
-    Description = 'Module for communication with CitiLine cloud service server over API from environment of PowerShell7'
+    Description = 'Module for communication with CityLine cloud service server over API from environment of PowerShell7'
 
     # Minimum version of the PowerShell engine required by this module
     PowerShellVersion     = '7.0'
