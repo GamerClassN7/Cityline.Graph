@@ -47,6 +47,11 @@ function Invoke-CRequestBatchFilterDefinition {
         if (($Body.pm_list -split ',').Length -ne $responseJson.filter_pms.Length){
             Write-Verbose "Warning: Requested $(($Body.pm_list -split ',').Length) PM GUIDs, but response contains $($responseJson.filter_pms.Length) entries."
         }
+
+        if ($responseJson.pm.Length -le 999){
+            Write-Verbose "iteration avoided less than 1000"
+            break
+        }
     }
 
     Write-Verbose "Results : $($results.Length)"

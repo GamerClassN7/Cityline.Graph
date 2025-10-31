@@ -9,8 +9,8 @@ Small yet powerful module for communication with CityLine cloud service server o
 
 ### Connect to Service
 ```powersehll
-Install-Module .Cityline.Graph
-Import-Module .Cityline.Graph -Force
+Install-Module Cityline.Graph
+Import-Module Cityline.Graph -Force
 
 # create a SecureString first for -Password
 $pw = ConvertTo-SecureString 'password' -AsPlainText -Force
@@ -38,7 +38,7 @@ Get-CStatisticsAnalysisReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pm
 ```
 
 ### Fetch financial report data
-__* Search for payed ticket inside CityLine service__
+__* Search for paied ticket inside CityLine service__
 ```powersehll
 $pm = Get-CMachine
 Get-CStatisticsDataReport -from (Get-Date -Day 1) -to (Get-Date -Day 30) -pmGuids $pm.GUID -ReportType 'SinglePaymentReport' | Where-Object -Property 'PLATENO' -Value 'XX123YY' -eq
