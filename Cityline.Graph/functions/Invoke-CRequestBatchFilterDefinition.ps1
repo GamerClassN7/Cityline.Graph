@@ -40,8 +40,9 @@ function Invoke-CRequestBatchFilterDefinition {
     Write-Verbose "Invoking batched request for date range: $($Body.startdate) to $($Body.enddate)"
     Write-Verbose "Results : $($responseJson.pm.Length)"
     
-    if ($responseJson.pm.Length -ne 999) {
+    if (-not ($responseJson.pm.Length -gt 999)) {
         Write-Verbose "iteration avoided less than 1000"
+        Write-Verbose "Results : $($results.Length)"
         return $responseJson
     }
 
@@ -53,6 +54,7 @@ function Invoke-CRequestBatchFilterDefinition {
         $response = Invoke-CRequest -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Method 'POST' -Body $tempBody
         $responseJson = ($response.Content | ConvertFrom-Json -Depth 5)
         $results += $responseJson
+
         Write-Verbose "Invoking batched request for date range: $($tempBody.startdate) to $($tempBody.enddate)"
         Write-Verbose "Results : $($responseJson.pm.Length)"
 
