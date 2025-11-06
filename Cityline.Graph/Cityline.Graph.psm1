@@ -22,4 +22,5 @@ $script:LastRequest = @{
     Method  = $null
     Body    = @{} 
 }
+$script:session = $null;
 $script:isConnected = $false;
