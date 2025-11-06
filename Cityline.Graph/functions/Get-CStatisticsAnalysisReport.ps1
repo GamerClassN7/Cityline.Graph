@@ -12,21 +12,48 @@ function Get-CStatisticsAnalysisReport {
         [string[]]
         $pmGuids,
 
-        [ValidateSet('FinancialReport','TicketDurationReport')]
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('FinancialReport', 'TicketDurationReport')]
         [string]
-        $ReportType = 'FinancialReport'
+        $ReportType = 'FinancialReport',
+
+        [Parameter(Mandatory = $false)]
+        [ValidateSet('ParkMachine', 'Area', 'Category', 'Tariff')]
+        [string]
+        $GroupBy = 'ParkMachine'
     )
+
+    $noCrt = "1"
+    if ($ReportType -eq 'TicketDurationReport') {
+        $noCrt = "7"
+    }
+
+    $groupingBy = '1'
+    switch ($GroupBy) {
+        'ParkMachine' { 
+            $groupingBy = '1' 
+        }
+        'Area' { 
+            $groupingBy = '2' 
+        }
+        'Category' { 
+            $groupingBy = '3' 
+        }
+        'Tariff' { 
+            $groupingBy = '4' 
+        }
+    }
 
     $pmList = ($pmGuids -join ',')
     $form = @{
-        "no_crt"                = "7"
-        "filterdefinition_guid" = "3" #Magick Variable for new filter
+        "no_crt"                = $noCrt
+        "filterdefinition_guid" = "3" #Magic Variable for new filter
         "reporttype"            = $ReportType
         "pm_list"               = ("," + $pmList)
-        "startdate"             = $from.ToString("dd-MM-yyy 00:00:00")
-        "enddate"               = $to.ToString("dd-MM-yyy 23:59:59")
+        "startdate"             = $from.ToString("dd-MM-yyyy 00:00:00")
+        "enddate"               = $to.ToString("dd-MM-yyyy 23:59:59")
         "last5messages"         = "0"
-        "grouping_by"           = "1"
+        "grouping_by"           = $groupingBy
     }
 
     $response = Invoke-CRequestBatchFilterDefinition -Method 'POST' -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Body $form -ChunkDays 7

@@ -46,7 +46,7 @@ function Invoke-CRequest {
             }
         }
     }
-
+    
     # Build the full URI; append query string for GET requests
     $uri = "{0}{1}" -f $script:Uri, $Endpoint
     if ($Method -eq 'GET' -and $Query) {
@@ -59,14 +59,15 @@ function Invoke-CRequest {
             Write-Warning ("Failed to build query string from provided `Query` parameter: {0}" -f $_)
         }
     }
-
+    
     $requestPrefab = @{
         WebSession  = $script:session
         Method      = $Method
         ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
     }
-
+    
     if ($Method -ne 'GET' -and $Body) {
+        Write-Verbose ($form | ConvertTo-Json -Depth 3)
         Write-Verbose  "$Body test"
         $requestPrefab['Body'] = $Body
     }

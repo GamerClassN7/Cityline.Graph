@@ -32,7 +32,18 @@ function Invoke-CRequestBatchFilterDefinition {
     }
 
     $days = New-TimeSpan -Start $from -End $to
-    write-verbose "Splitting request from $($from) to $($to) into chunks of $ChunkDays days (total $($days.TotalDays) days)."
+    Write-Verbose "Splitting request from $($from) to $($to) into chunks of $ChunkDays days (total $($days.TotalDays) days)."
+
+    #check if Batching applies
+    $response = Invoke-CRequest -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Method 'POST' -Body $Body
+    $responseJson = ($response.Content | ConvertFrom-Json -Depth 5)
+    Write-Verbose "Invoking batched request for date range: $($Body.startdate) to $($Body.enddate)"
+    Write-Verbose "Results : $($responseJson.pm.Length)"
+    
+    if ($responseJson.pm.Length -ne 999) {
+        Write-Verbose "iteration avoided less than 1000"
+        return $responseJson
+    }
 
     for ($i = 0; $i -lt [System.Math]::Ceiling($days.TotalDays); $i += $ChunkDays) {
         $tempBody = $Body.Clone()
@@ -42,15 +53,11 @@ function Invoke-CRequestBatchFilterDefinition {
         $response = Invoke-CRequest -Endpoint ("/{0}_report/getFilterDefinition" -f ($ReportType.ToLower() -replace 'Report', '')) -Method 'POST' -Body $tempBody
         $responseJson = ($response.Content | ConvertFrom-Json -Depth 5)
         $results += $responseJson
-        Write-verbose "Invoking batched request for date range: $($tempBody.startdate) to $($tempBody.enddate)"
-        Write-verbose "Results : $($responseJson.pm.Length)"
-        if (($Body.pm_list -split ',').Length -ne $responseJson.filter_pms.Length){
-            Write-Verbose "Warning: Requested $(($Body.pm_list -split ',').Length) PM GUIDs, but response contains $($responseJson.filter_pms.Length) entries."
-        }
+        Write-Verbose "Invoking batched request for date range: $($tempBody.startdate) to $($tempBody.enddate)"
+        Write-Verbose "Results : $($responseJson.pm.Length)"
 
-        if ($responseJson.pm.Length -le 999){
-            Write-Verbose "iteration avoided less than 1000"
-            break
+        if (($Body.pm_list -split ',').Length -ne $responseJson.filter_pms.Length) {
+            Write-Verbose "Warning: Requested $(($Body.pm_list -split ',').Length) PM GUIDs, but response contains $($responseJson.filter_pms.Length) entries."
         }
     }
 
