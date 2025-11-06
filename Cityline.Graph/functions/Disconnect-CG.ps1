@@ -6,5 +6,6 @@ function Disconnect-CG {
         $Password
     )
 
-    Invoke-WebRequest -WebSession $script:session -Uri ("{0}/logout" -f $script:rootUrl) -Method "GET"
+    Invoke-WebRequest -WebSession $script:session -Uri ("{0}/logout" -f $script:Uri) -Method "GET"
+    $script:isConnected = $false
 }

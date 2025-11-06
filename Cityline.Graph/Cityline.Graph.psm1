@@ -16,11 +16,10 @@ Export-ModuleMember -Function $functions
 
 # MODULE VARIABLES
 $script:Uri = '';
-$script:RequestID = 0;
-$script:RequestAuth = ''
 $script:LastRequest = @{
     Headers = @{"Content-Type" = "application/json" }
     Uri     = $null
     Method  = $null
     Body    = @{} 
 }
+$script:isConnected = $false;
